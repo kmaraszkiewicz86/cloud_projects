@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using PhotoGallery.Shared.ApiModels.Api.PhotoGallery;
 using PhotoGallery.Shared.Models;
 
 namespace PhotoGallery.CloudShared.Interfaces
 {
-    public interface IAwsDynamoDbCloudService
+    public interface IBaseCloudFacade
     {
-        Task InsertAsync(PhotoGalleryModel photoGalleryModel);
-
-        Task DeleteAsync(string id);
+        Task InsertPhotoAsync(InsertPhotoGralleryRequest insertPhotoGralleryRequest);
 
         Task<IEnumerable<PhotoGalleryModel>> GetAllAsync();
-
-        Task<PhotoGalleryModel> FindAsync(string id);
     }
 }

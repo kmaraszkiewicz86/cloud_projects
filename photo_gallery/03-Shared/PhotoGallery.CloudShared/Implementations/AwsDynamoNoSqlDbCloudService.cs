@@ -14,7 +14,7 @@ using PhotoGallery.Shared.Models;
 
 namespace PhotoGallery.CloudShared.Implementations
 {
-    public class AwsDynamoDbCloudService : IAwsDynamoDbCloudService
+    public class AwsDynamoNoSqlDbCloudService : INoSqlDbCloudService
     {
         private readonly string _tableName = "PhotoGallery";
         
@@ -22,7 +22,7 @@ namespace PhotoGallery.CloudShared.Implementations
         
         private readonly AmazonDynamoDBClient _dynamoDbClient;
 
-        public AwsDynamoDbCloudService(IOptions<AwsConfigurations> awsConfigurationsOptions)
+        public AwsDynamoNoSqlDbCloudService(IOptions<AwsConfigurations> awsConfigurationsOptions)
         {
             BasicAWSCredentials awsCredentials = GetAwsCredentials(awsConfigurationsOptions);
             

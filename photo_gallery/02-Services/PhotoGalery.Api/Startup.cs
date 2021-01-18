@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PhotoGalery.Api.Extensions;
+using PhotoGallery.Shared.Models;
 
 namespace PhotoGalery.Api
 {
@@ -26,6 +28,9 @@ namespace PhotoGalery.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AwsConfigurations>(Configuration.GetSection("Aws"));
+            services.ConfigureRequiredServices();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

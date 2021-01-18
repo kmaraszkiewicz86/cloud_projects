@@ -15,7 +15,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <_ContentIncludedByDefault Remove="PhotoGallery.CloudShared.AutomatedTests\obj\PhotoGallery.CloudShared.AutomatedTests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="PhotoGallery.CloudShared.AutomatedTests\obj\project.assets.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\Implementations" />
+      <Folder Include="Services\Interfaces" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\03-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj" />
     </ItemGroup>
 
 </Project>

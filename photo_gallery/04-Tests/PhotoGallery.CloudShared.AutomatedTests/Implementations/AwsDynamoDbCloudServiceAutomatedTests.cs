@@ -11,7 +11,7 @@ namespace PhotoGallery.CloudShared.Tests.Implementations
 {
     public class AwsDynamoDbCloudServiceAutomatedTest
     {
-        private readonly AwsDynamoDbCloudService _awsDynamoDbCloudService;
+        private readonly AwsDynamoNoSqlDbCloudService _awsDynamoNoSqlDbCloudService;
 
         public AwsDynamoDbCloudServiceAutomatedTest()
         {
@@ -22,7 +22,7 @@ namespace PhotoGallery.CloudShared.Tests.Implementations
                 SecretKey = "pJfeC4EPYVctPmzTrjVamIKlaif0auVTipL5zAaD"
             });
             
-            _awsDynamoDbCloudService = new AwsDynamoDbCloudService(optionsMock.Object);
+            _awsDynamoNoSqlDbCloudService = new AwsDynamoNoSqlDbCloudService(optionsMock.Object);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace PhotoGallery.CloudShared.Tests.Implementations
         {
             try
             {
-                await _awsDynamoDbCloudService.InsertAsync(new PhotoGalleryModel
+                await _awsDynamoNoSqlDbCloudService.InsertAsync(new PhotoGalleryModel
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "TestItem",
@@ -38,13 +38,13 @@ namespace PhotoGallery.CloudShared.Tests.Implementations
                     KeyName = "KeyName1"
                 });
 
-                IEnumerable<PhotoGalleryModel> photoGalleryModels = await _awsDynamoDbCloudService.GetAllAsync();
+                IEnumerable<PhotoGalleryModel> photoGalleryModels = await _awsDynamoNoSqlDbCloudService.GetAllAsync();
 
                 foreach (PhotoGalleryModel photoGalleryModel in photoGalleryModels)
                 {
                     Console.WriteLine(photoGalleryModel.ToString());
                     
-                    await _awsDynamoDbCloudService.DeleteAsync(photoGalleryModel.Id);
+                    await _awsDynamoNoSqlDbCloudService.DeleteAsync(photoGalleryModel.Id);
                 }
                 
             }
