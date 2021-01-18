@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGalery.Api", "02-Services\PhotoGalery.Api\PhotoGalery.Api.csproj", "{8244BAA2-0938-4B9E-B132-1433103FF61C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.CloudShared", "03-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj", "{9685A996-1574-4811-9108-38E754E1915F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.Shared", "03-Shared\PhotoGallery.Shared\PhotoGallery.Shared.csproj", "{E5924F4C-2020-4B28-8FAC-9E1D15682AF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.CloudShared.AutomatedTests", "04-Tests\PhotoGallery.CloudShared.AutomatedTests\PhotoGallery.CloudShared.AutomatedTests.csproj", "{A70E9BF9-6BCE-4899-A541-66FF723578DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8244BAA2-0938-4B9E-B132-1433103FF61C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8244BAA2-0938-4B9E-B132-1433103FF61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8244BAA2-0938-4B9E-B132-1433103FF61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8244BAA2-0938-4B9E-B132-1433103FF61C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9685A996-1574-4811-9108-38E754E1915F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9685A996-1574-4811-9108-38E754E1915F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9685A996-1574-4811-9108-38E754E1915F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9685A996-1574-4811-9108-38E754E1915F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5924F4C-2020-4B28-8FAC-9E1D15682AF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5924F4C-2020-4B28-8FAC-9E1D15682AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5924F4C-2020-4B28-8FAC-9E1D15682AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5924F4C-2020-4B28-8FAC-9E1D15682AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
