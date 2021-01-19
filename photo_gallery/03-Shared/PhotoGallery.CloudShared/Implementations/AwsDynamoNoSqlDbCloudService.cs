@@ -51,6 +51,7 @@ namespace PhotoGallery.CloudShared.Implementations
             await WaitForTableWillBeReadyToModifyAsync();
             
             PhotoGalleryModel photoGalleryModelToDelete = await FindAsync(id);
+
             await Context.DeleteAsync<PhotoGalleryModel>(photoGalleryModelToDelete);
         }
 
@@ -66,32 +67,38 @@ namespace PhotoGallery.CloudShared.Implementations
         {
             await CreateTableIfNotExistsAsync();
             await WaitForTableWillBeReadyToModifyAsync();
+
+            PhotoGalleryModel photoGalleryModel = await Context.LoadAsync<PhotoGalleryModel>(id);
             
-            return await Context.LoadAsync<PhotoGalleryModel>(id);
+            if (photoGalleryModel == null)
+                throw new NotFoundException($"The photo by id {id} not exists");
+            
+            return photoGalleryModel;
         }
 
         private async Task WaitForTableWillBeReadyToModifyAsync()
         {
             try
             {
-                TableStatus status = TableStatus.DELETING;
-
                 do
                 {
                     await Task.Delay(200);
-
-                    DescribeTableResponse response = await _dynamoDbClient.DescribeTableAsync(new DescribeTableRequest
-                    {
-                        TableName = _tableName
-                    });
-
-                    status = response.Table.TableStatus;
-                } while (status != TableStatus.ACTIVE);
+                } while (await  GetTableStatusAsync() != TableStatus.ACTIVE);
             }
             catch (ResourceNotFoundException resourceNotFoundException)
             {
                 throw new BadRequestException(resourceNotFoundException.Message);
             }
+        }
+
+        private async Task<TableStatus> GetTableStatusAsync()
+        {
+            DescribeTableResponse response = await _dynamoDbClient.DescribeTableAsync(new DescribeTableRequest
+            {
+                TableName = _tableName
+            });
+
+            return response.Table.TableStatus;
         }
         
         private async Task CreateTableIfNotExistsAsync()
@@ -103,7 +110,22 @@ namespace PhotoGallery.CloudShared.Implementations
                 return;
             }
 
-            var request = new CreateTableRequest
+            var request = GenerateCreateTableRequest();
+
+            try
+            {
+                CreateTableResponse response = await _dynamoDbClient.CreateTableAsync(request);
+                Debug.WriteLine(response.ResponseMetadata.RequestId);
+            }
+            catch (Exception e)
+            {
+                throw new BadRequestException(e.Message);
+            }
+        }
+
+        private CreateTableRequest GenerateCreateTableRequest()
+        {
+            return  new CreateTableRequest
             {
                 TableName = _tableName,
                 AttributeDefinitions = new List<AttributeDefinition>()
@@ -125,20 +147,9 @@ namespace PhotoGallery.CloudShared.Implementations
                 ProvisionedThroughput = new ProvisionedThroughput
                 {
                     WriteCapacityUnits = 5,
-                    ReadCapacityUnits = 5,
-
+                    ReadCapacityUnits = 5
                 }
             };
-
-            try
-            {
-                CreateTableResponse response = await _dynamoDbClient.CreateTableAsync(request);
-                Debug.WriteLine(response.ResponseMetadata.RequestId);
-            }
-            catch (Exception e)
-            {
-                throw new BadRequestException(e.Message);
-            }
         }
     }
 }

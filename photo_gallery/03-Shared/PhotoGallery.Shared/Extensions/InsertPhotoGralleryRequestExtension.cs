@@ -1,5 +1,5 @@
 ﻿using System;
-using PhotoGallery.Shared.ApiModels.Api.PhotoGallery;
+using PhotoGallery.Shared.ApiModels.Api.PhotoAwsGallery;
 using PhotoGallery.Shared.Models;
 
 namespace PhotoGallery.Shared.Extensions

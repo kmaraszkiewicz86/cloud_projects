@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.Shared", "03-S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.CloudShared.AutomatedTests", "04-Tests\PhotoGallery.CloudShared.AutomatedTests\PhotoGallery.CloudShared.AutomatedTests.csproj", "{A70E9BF9-6BCE-4899-A541-66FF723578DE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ECAF7FAA-711F-4E41-83B7-083273DCC946}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,8 @@ Global
 		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A70E9BF9-6BCE-4899-A541-66FF723578DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A70E9BF9-6BCE-4899-A541-66FF723578DE} = {ECAF7FAA-711F-4E41-83B7-083273DCC946}
 	EndGlobalSection
 EndGlobal

@@ -1,9 +1,10 @@
-﻿namespace PhotoGallery.Shared.ApiModels.Api.PhotoGallery
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PhotoGallery.Shared.ApiModels.Api.PhotoAwsGallery
 {
     public class InsertPhotoGralleryRequest
     {
-        public string Id { get; set; }
-
+        [Required]
         public string Name { get; set; }
 
         public string PhotoInBytes { get; set; }

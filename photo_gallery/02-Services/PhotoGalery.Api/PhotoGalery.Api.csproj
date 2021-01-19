@@ -20,11 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Implementations" />
-      <Folder Include="Services\Interfaces" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\03-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj" />
     </ItemGroup>
 

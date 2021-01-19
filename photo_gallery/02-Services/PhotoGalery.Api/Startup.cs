@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PhotoGalery.Api.Extensions;
+using PhotoGalery.Api.Middlewares;
 using PhotoGallery.Shared.Models;
 
 namespace PhotoGalery.Api
@@ -48,6 +49,7 @@ namespace PhotoGalery.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoGalery.Api v1"));
             }
 
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();
