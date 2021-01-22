@@ -9,6 +9,7 @@
       <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
       <PackageReference Include="Moq" Version="4.16.0" />
       <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+      <PackageReference Include="System.Text.Json" Version="5.0.1" />
     </ItemGroup>
 
 </Project>

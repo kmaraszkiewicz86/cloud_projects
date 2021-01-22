@@ -20,7 +20,7 @@ namespace PhotoGalery.Api
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,7 +31,7 @@ namespace PhotoGalery.Api
         {
             services.Configure<AwsConfigurations>(Configuration.GetSection("Aws"));
             services.ConfigureRequiredServices();
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -45,9 +45,10 @@ namespace PhotoGalery.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoGalery.Api v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoGalery.Api v1"));
 
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
