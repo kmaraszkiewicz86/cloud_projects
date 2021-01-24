@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PhotoGalery.Http.Shared.Core.Interfaces;
 using PhotoGalery.Http.Shared.Extensions;
 using PhotoGallery.Shared.ApiModels.Api.PhotoAwsGallery;
 
 namespace PhotoGalery.Http.Shared.Core.Implementations
 {
-    public class PhotoGaleryHttpService
+    public class PhotoGaleryHttpService : BaseHttpService, IPhotoGaleryHttpService
     {
-        private readonly string BaseAdress = "http://192.168.0.23:5000/api/AwsPhotoGallery";
-
-        private readonly HttpClient _httpClient;
-
-        public PhotoGaleryHttpService(HttpClient httpClient)
+        public PhotoGaleryHttpService(HttpClient httpClient) : base(httpClient)
         {
-            _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(BaseAdress);
+            
         }
 
         public async Task<IEnumerable<PhotoGalleryResponse>> GetAllAsync()
         {
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("");
+            HttpResponseMessage httpResponseMessage = await HttpClient.GetAsync("");
 
             await httpResponseMessage.ThrowIfResponseHasInvalidStatusCode();
 
@@ -36,7 +31,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
         {
             StringContent stringContent = GetStringContent(insertPhotoGralleryRequest);
 
-            HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync("", stringContent);
+            HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync("", stringContent);
 
             await httpResponseMessage.ThrowIfResponseHasInvalidStatusCode();
         }
@@ -45,7 +40,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
         {
             StringContent stringContent = GetStringContent(deleteRequest);
 
-            HttpResponseMessage httpResponseMessage = await _httpClient.SendAsync(new HttpRequestMessage
+            HttpResponseMessage httpResponseMessage = await HttpClient.SendAsync(new HttpRequestMessage
             {
                 Content = stringContent,
                 Method = HttpMethod.Delete,

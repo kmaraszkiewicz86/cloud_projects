@@ -1,4 +1,4 @@
-﻿using System;
+﻿using PhotoGalery.Mobile.Services.Implementations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +12,11 @@ namespace PhotoGalery.Mobile
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            new HostingBuilder()
+                .InitializeRequiredServices()
+                .Build();
+            
+            MainPage = new NavigationPage(HostingBuilder.ServiceProvider.GetService<MainPage>());
         }
 
         protected override void OnStart()
