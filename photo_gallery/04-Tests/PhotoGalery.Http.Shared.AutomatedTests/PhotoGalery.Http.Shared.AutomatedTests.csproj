@@ -28,6 +28,10 @@
       <None Update="TestData\ModelStateErrorResponseTestData.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Remove="TestData\ErrorMessageJsonRespone.json" />
+      <Content Include="TestData\ErrorMessageJsonRespone.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

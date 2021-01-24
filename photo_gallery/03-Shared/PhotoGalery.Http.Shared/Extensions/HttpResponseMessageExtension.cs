@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -19,35 +19,32 @@ namespace PhotoGalery.Http.Shared.Extensions
                 {
                     var errorResponse = await httpResponseMessage.SerializeAsync<ErrorResponse>();
                     
-
-                    throw new InvalidResponseException($"[{httpResponseMessage.StatusCode}]: " +
-                                                       $"{errorResponse.ErrorMessage}");
+                    throw new InvalidResponseException($"{errorResponse.ErrorMessage}");
                 }
                 
                 if (httpResponseMessage.StatusCode == HttpStatusCode.BadRequest)
                 {
                     var errorValidationResponse = await httpResponseMessage.SerializeAsync<ErrorValidationResponse>();
 
-                    if (errorValidationResponse != null)
+                    if (errorValidationResponse.ModelStateErrors != null && errorValidationResponse.ModelStateErrors.Any())
                     {
                         throw new InvalidResponseException(errorValidationResponse.ModelStateErrors);
                     }
                     
                     var errorResponse = await httpResponseMessage.SerializeAsync<ErrorResponse>();
                     
-                    throw new InvalidResponseException($"[{httpResponseMessage.StatusCode}]: {errorResponse.ErrorMessage}");
+                    throw new InvalidResponseException($"{errorResponse.ErrorMessage}");
                 }
                 
-                throw new InvalidResponseException($"[{httpResponseMessage.StatusCode}]: Unknown error");
-                
+                throw new InvalidResponseException($"Unknown error");
             }
         }
 
         private static async Task<TReturn> SerializeAsync<TReturn>(this HttpResponseMessage httpResponseMessage)
             where TReturn: new()
         {
-            return await JsonSerializer.DeserializeAsync<TReturn>(
-                await httpResponseMessage.Content.ReadAsStreamAsync(),
+            return JsonSerializer.Deserialize<TReturn>(
+                await httpResponseMessage.Content.ReadAsStringAsync(),
                 new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
     }

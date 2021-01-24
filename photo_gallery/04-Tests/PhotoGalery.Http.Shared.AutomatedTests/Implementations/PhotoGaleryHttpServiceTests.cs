@@ -52,26 +52,89 @@ namespace PhotoGalery.Http.Shared.Tests.Implementations
         }
         
         [Test]
-        public async Task GetAllAsync_WhenUserFetchingDataFromServerAndGetInvalidResponse()
+        public async Task InsertAsync_WhenUserFetchingDataFromServerAndGetValidResponse()
+        {
+            MockSendAsyncMethod(HttpStatusCode.OK);
+            
+            await _serviceUnderTest.InsertAsync(new InsertPhotoGralleryRequest());
+        }
+        
+        [Test]
+        public async Task InsertAsync_WhenUserFetchingDataFromServerAndGetInvalidResponseWithModelStateErrors()
         {
             var expectedInvalidResponseException = new InvalidResponseException(new Dictionary<string, string[]>
             {
                 {"Name", new[] {"The Name field is required."}}
             });
+
+            await TestSendingRequestAndThenResponseHasErrors(
+                expectedInvalidResponseException,
+                "ModelStateErrorResponseTestData",
+                async () => await _serviceUnderTest.InsertAsync(new InsertPhotoGralleryRequest()));
+        }
+        
+        [Test]
+        public async Task InsertAsync_WhenUserFetchingDataFromServerAndGetInvalidResponse()
+        {
+            var expectedInvalidResponseException = new InvalidResponseException("The error message");
+
+            await TestSendingRequestAndThenResponseHasErrors(
+                expectedInvalidResponseException,
+                "ErrorMessageJsonRespone",
+                async () => await _serviceUnderTest.InsertAsync(new InsertPhotoGralleryRequest()));
+        }
+        
+        [Test]
+        public async Task DeleteAsync_WhenUserFetchingDataFromServerAndGetValidResponse()
+        {
+            MockSendAsyncMethod(HttpStatusCode.OK);
             
-            MockSendAsyncMethod(HttpStatusCode.BadRequest, GetContent("ModelStateErrorResponseTestData"));
+            await _serviceUnderTest.DeleteAsync(new DeleteRequest { Id = "1" });
+        }
+        
+        [Test]
+        public async Task DeleteAsync_WhenUserFetchingDataFromServerAndGetInvalidResponseWithModelStateErrors()
+        {
+            var expectedInvalidResponseException = new InvalidResponseException(new Dictionary<string, string[]>
+            {
+                {"Name", new[] {"The Name field is required."}}
+            });
+
+            await TestSendingRequestAndThenResponseHasErrors(
+                expectedInvalidResponseException,
+                "ModelStateErrorResponseTestData",
+                async () => await _serviceUnderTest.DeleteAsync(new DeleteRequest {Id = "1"}));
+        }
+        
+        [Test]
+        public async Task DeleteAsync_WhenUserFetchingDataFromServerAndGetInvalidResponse()
+        {
+            var expectedInvalidResponseException = new InvalidResponseException("The error message");
+
+            await TestSendingRequestAndThenResponseHasErrors(
+                expectedInvalidResponseException,
+                "ErrorMessageJsonRespone",
+                async () => await _serviceUnderTest.DeleteAsync(new DeleteRequest { Id = "1" }));
+        }
+        
+        private async Task TestSendingRequestAndThenResponseHasErrors(
+            InvalidResponseException expectedInvalidResponseException,
+            string jsonFilename,
+            Func<Task> doHttpRequestWorkAsync)
+        {
+            MockSendAsyncMethod(HttpStatusCode.BadRequest, GetContent(jsonFilename));
 
             try
             {
-                await _serviceUnderTest.GetAllAsync();
-
+                await doHttpRequestWorkAsync();
+                
                 throw new Exception(
                     $"Expected that the method {nameof(PhotoGaleryHttpService.GetAllAsync)} throws error, but noting happen");
             }
             catch (InvalidResponseException invalidResponseException)
             {
-                invalidResponseException.ModelStateErrors.Should().BeEquivalentTo(
-                    expectedInvalidResponseException.ModelStateErrors);
+                invalidResponseException.ModelStateErrors.Should().BeEquivalentTo(expectedInvalidResponseException.ModelStateErrors);
+                invalidResponseException.Message.Should().Be(expectedInvalidResponseException.Message);
             }
         }
 
@@ -88,17 +151,23 @@ namespace PhotoGalery.Http.Shared.Tests.Implementations
         }
 
         private void MockSendAsyncMethod(HttpStatusCode statusCode,
-            HttpContent content)
+            HttpContent content = null)
         {
+            HttpResponseMessage httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = statusCode
+            };
+
+            if (content != null)
+            {
+                httpResponseMessage.Content = content;
+            }
+            
             _httpMessageHandlerMock.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = statusCode,
-                    Content = content
-                });
+                .ReturnsAsync(httpResponseMessage);
         }
     }
 }
