@@ -36,8 +36,9 @@ namespace PhotoGalery.Mobile.Services.Implementations
 
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.GetRequiredPages();
             serviceCollection.GetRequiredHttpServices();
+            serviceCollection.GetRequiredViewModels();
+            serviceCollection.GetRequiredPages();
         }
     }
 }
