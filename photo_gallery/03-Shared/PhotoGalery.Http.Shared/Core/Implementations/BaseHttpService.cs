@@ -5,7 +5,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
 {
     public abstract class BaseHttpService
     {
-        private readonly string BaseAdress = "http://192.168.0.23:5000/api/AwsPhotoGallery";
+        private readonly string BaseAdress = "http://192.168.0.23:5000/";
 
         protected readonly HttpClient HttpClient;
 

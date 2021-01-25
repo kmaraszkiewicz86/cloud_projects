@@ -8,12 +8,40 @@
     <ContentPage.Behaviors>
         <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding OnAppearingCommand}" />
     </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <Style TargetType="CollectionView" x:Key="PhotoCollectionViewStyle">
+            <Style.Triggers>
+                <DataTrigger TargetType="CollectionView" Binding="{Binding IsLoading}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+                <DataTrigger TargetType="CollectionView" Binding="{Binding IsLoading}" Value="False">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentPage.Resources>
 
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="{Binding TestMessage}" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+    <Grid RowDefinitions="*, Auto">
+        <ActivityIndicator 
+            Grid.Row="0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading}" 
+            IsRunning="{Binding IsLoading}" />
+
+        <CollectionView 
+            Grid.Row="1"
+            Style="{DynamicResource PhotoCollectionViewStyle}"
+            ItemsSource="{Binding PhotoGalleryResponses}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="5">
+                        <Label Text="{Binding Name}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
 
 </ContentPage>

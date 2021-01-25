@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -18,7 +19,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
 
         public async Task<IEnumerable<PhotoGalleryResponse>> GetAllAsync()
         {
-            HttpResponseMessage httpResponseMessage = await HttpClient.GetAsync("");
+            HttpResponseMessage httpResponseMessage = await HttpClient.GetAsync("api/AwsPhotoGallery");
 
             await httpResponseMessage.ThrowIfResponseHasInvalidStatusCode();
 
@@ -31,7 +32,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
         {
             StringContent stringContent = GetStringContent(insertPhotoGralleryRequest);
 
-            HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync("", stringContent);
+            HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync("api/AwsPhotoGallery", stringContent);
 
             await httpResponseMessage.ThrowIfResponseHasInvalidStatusCode();
         }
@@ -44,6 +45,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
             {
                 Content = stringContent,
                 Method = HttpMethod.Delete,
+                RequestUri = new Uri("api/AwsPhotoGallery")
             });
 
             await httpResponseMessage.ThrowIfResponseHasInvalidStatusCode();
