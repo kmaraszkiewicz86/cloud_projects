@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:PhotoGalery.Mobile.Behaviors"
+             x:Class="PhotoGalery.Mobile.MainPage">
+
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding OnAppearingCommand}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <Style TargetType="CollectionView" x:Key="PhotoCollectionViewStyle">
+            <Style.Triggers>
+                <DataTrigger TargetType="CollectionView" Binding="{Binding IsLoading}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+                <DataTrigger TargetType="CollectionView" Binding="{Binding IsLoading}" Value="False">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *">
+        <ActivityIndicator 
+            Grid.Row="0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading}" 
+            IsRunning="{Binding IsLoading}" />
+
+        <StackLayout Grid.Row="1" IsVisible="{Binding ReponseErrorExists}">
+            <Label HorizontalOptions="CenterAndExpand" 
+                   FontSize="Medium"
+                   Text="{Binding ErrorMessage}" 
+                   TextColor="DarkRed" />
+        </StackLayout>
+
+        <StackLayout Grid.Row="2">
+            <Entry Text="{Binding NewItemName}" 
+                   Placeholder="Enter new item name" 
+                   Margin="5"/>
+            <Button Text="Add" Command="{Binding OnAddedNewItemCommand}" />
+        </StackLayout>
+
+        <CollectionView 
+            Grid.Row="3"
+            Style="{DynamicResource PhotoCollectionViewStyle}"
+            ItemsSource="{Binding PhotoGalleryResponses}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="Auto,1" Margin="0, 20">
+                        <Label Grid.Row="0" 
+                               FontSize="Medium" 
+                               Text="{Binding Name}" />
+
+                        <BoxView Grid.Row="1" 
+                                 BackgroundColor="LightGray"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
