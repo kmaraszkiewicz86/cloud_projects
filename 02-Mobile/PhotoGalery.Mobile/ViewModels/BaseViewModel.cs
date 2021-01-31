@@ -22,7 +22,7 @@ namespace PhotoGalery.Mobile.ViewModels
             }
         }
 
-        public bool ReponseErrorExists => string.IsNullOrEmpty(ErrorMessage);
+        public bool ReponseErrorExists => !string.IsNullOrEmpty(ErrorMessage);
 
         private string _errorMessage;
 

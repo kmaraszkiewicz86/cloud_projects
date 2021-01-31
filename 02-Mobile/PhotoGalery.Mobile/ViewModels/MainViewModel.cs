@@ -24,6 +24,8 @@ namespace PhotoGalery.Mobile.ViewModels
 
         public Command OnAddedNewItemCommand { get; set; }
 
+        public Command OnDeleteItemCommand { get; set; }
+
         public bool IsLoading
         {
             get => _isLoading;
@@ -63,10 +65,22 @@ namespace PhotoGalery.Mobile.ViewModels
 
             OnAppearingCommand = new Command(OnAppearingCommandAction);
             OnAddedNewItemCommand = new Command(OnAddedNewItemAction,
-                canExecute: (obj) => !string.IsNullOrEmpty(NewItemName));
+                canExecute: () => !string.IsNullOrEmpty(NewItemName));
+            OnDeleteItemCommand = new Command<string>(OnDeleteItemCommandAction);
         }
 
-        private void OnAddedNewItemAction(object obj)
+        private void OnAppearingCommandAction()
+        {
+            ErrorMessage = string.Empty;
+            IsLoading = true;
+
+            Task.Run(async () =>
+            {
+                await FetchItemsFromServerAsync();
+            });
+        }
+
+        private void OnAddedNewItemAction()
         {
             IsLoading = true;
 
@@ -83,18 +97,32 @@ namespace PhotoGalery.Mobile.ViewModels
                 Application.Current.MainPage.Dispatcher.BeginInvokeOnMainThread(() =>
                 {
                     IsLoading = false;
+                    NewItemName = string.Empty;
                 });
 
                 await FetchItemsFromServerAsync();
             });
         }
 
-        private void OnAppearingCommandAction()
+        private void OnDeleteItemCommandAction(string id)
         {
             IsLoading = true;
 
             Task.Run(async () =>
             {
+                await TryCatchWorkAsync(async () =>
+                {
+                    await _photoGaleryHttpService.DeleteAsync(new DeleteRequest
+                    {
+                        Id = id
+                    });
+                });
+
+                Application.Current.MainPage.Dispatcher.BeginInvokeOnMainThread(() =>
+                {
+                    IsLoading = false;
+                });
+
                 await FetchItemsFromServerAsync();
             });
         }

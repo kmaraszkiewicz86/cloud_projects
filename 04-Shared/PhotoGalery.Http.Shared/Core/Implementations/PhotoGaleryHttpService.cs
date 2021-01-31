@@ -41,11 +41,9 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
         {
             StringContent stringContent = GetStringContent(deleteRequest);
 
-            HttpResponseMessage httpResponseMessage = await HttpClient.SendAsync(new HttpRequestMessage
+            HttpResponseMessage httpResponseMessage = await HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Delete, "api/AwsPhotoGallery")
             {
-                Content = stringContent,
-                Method = HttpMethod.Delete,
-                RequestUri = new Uri("api/AwsPhotoGallery")
+                Content = stringContent
             });
 
             await httpResponseMessage.ThrowIfResponseHasInvalidStatusCode();

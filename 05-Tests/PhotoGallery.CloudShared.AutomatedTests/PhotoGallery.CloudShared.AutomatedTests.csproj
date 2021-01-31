@@ -15,8 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\03-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj" />
-      <ProjectReference Include="..\..\03-Shared\PhotoGallery.Shared\PhotoGallery.Shared.csproj" />
+      <ProjectReference Include="..\..\04-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj" />
+      <ProjectReference Include="..\..\04-Shared\PhotoGallery.Shared\PhotoGallery.Shared.csproj" />
     </ItemGroup>
 
 </Project>

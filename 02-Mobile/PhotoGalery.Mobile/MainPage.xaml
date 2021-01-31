@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:PhotoGalery.Mobile.Behaviors"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             x:Name="MainPageReference"
              x:Class="PhotoGalery.Mobile.MainPage">
 
     <ContentPage.Behaviors>
@@ -22,6 +25,7 @@
 
     <Grid RowDefinitions="Auto, Auto, Auto, *">
         <ActivityIndicator 
+            AutomationId="ActivityIndicator"
             Grid.Row="0"
             VerticalOptions="Center"
             HorizontalOptions="Center"
@@ -30,6 +34,7 @@
 
         <StackLayout Grid.Row="1" IsVisible="{Binding ReponseErrorExists}">
             <Label HorizontalOptions="CenterAndExpand" 
+                   Margin="5"
                    FontSize="Medium"
                    Text="{Binding ErrorMessage}" 
                    TextColor="DarkRed" />
@@ -37,25 +42,44 @@
 
         <StackLayout Grid.Row="2">
             <Entry Text="{Binding NewItemName}" 
+                   AutomationId="NewItemName"
                    Placeholder="Enter new item name" 
                    Margin="5"/>
-            <Button Text="Add" Command="{Binding OnAddedNewItemCommand}" />
+            <Button Text="Add" 
+                    AutomationId="AddNewItemButton"
+                    Command="{Binding OnAddedNewItemCommand}" />
         </StackLayout>
 
         <CollectionView 
             Grid.Row="3"
+            AutomationId="CollectionViewReference"
             Style="{DynamicResource PhotoCollectionViewStyle}"
             ItemsSource="{Binding PhotoGalleryResponses}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid RowDefinitions="Auto,1" Margin="0, 20">
-                        <Label Grid.Row="0" 
-                               FontSize="Medium" 
-                               Text="{Binding Name}" />
+                    <Grid RowDefinitions="50,1">
+                        <SwipeView Grid.Row="0" 
+                                   Margin="5, 0" 
+                                   AutomationId="CollectionItemSwipe">
+                            <SwipeView.RightItems>
+                                <SwipeItem Text="Delete"
+                                           ClassId="{Binding Name}"
+                                           BackgroundColor="Red"
+                                           Command="{Binding Path=BindingContext.OnDeleteItemCommand, Source={x:Reference MainPageReference}}"
+                                           CommandParameter="{Binding Id}" />
+                            </SwipeView.RightItems>
+
+                            <Label VerticalTextAlignment="Center" 
+                                   FontSize="Medium" 
+                                   Text="{Binding Name}" />
+                        </SwipeView>
 
                         <BoxView Grid.Row="1" 
-                                 BackgroundColor="LightGray"/>
+                                 BackgroundColor="LightBlue" />
                     </Grid>
+
+                    
+                    
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

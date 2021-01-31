@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>a2cd801a-f960-4396-b5fd-7fabf323b80c</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,7 +21,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\03-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj" />
+      <ProjectReference Include="..\..\04-Shared\PhotoGallery.CloudShared\PhotoGallery.CloudShared.csproj" />
+      <ProjectReference Include="..\..\04-Shared\PhotoGallery.Shared\PhotoGallery.Shared.csproj" />
     </ItemGroup>
 
 </Project>
