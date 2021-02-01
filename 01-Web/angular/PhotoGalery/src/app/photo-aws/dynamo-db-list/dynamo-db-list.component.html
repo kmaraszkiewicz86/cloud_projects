@@ -1,3 +1,7 @@
+<div *ngIf="isErrorExists" class="alert alert-danger" role="alert">
+  {{errorMessage}}
+</div>
+
 <div class="row">
   <table class="table">
     <thead>
@@ -8,9 +12,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
+      <tr *ngFor="let awsPhotoGaleryItem of awsPhotoGaleryItems">
+        <th scope="row">{{awsPhotoGaleryItem.id}}</th>
+        <td>{{awsPhotoGaleryItem.name}}</td>
         <td>
           <a href="#" class="stretched-link">Details</a>
         </td>

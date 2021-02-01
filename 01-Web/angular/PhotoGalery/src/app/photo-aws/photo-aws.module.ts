@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'
+import { HttpClientModule } from '@angular/common/http';
 
 import { DynamoDbListComponent } from './dynamo-db-list/dynamo-db-list.component';
 import { DynamoDbAddComponent } from './dynamo-db-add/dynamo-db-add.component';
