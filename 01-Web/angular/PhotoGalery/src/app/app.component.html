@@ -1,7 +1,14 @@
-<ul>
-  <li>
-    <a routerLink="./photo-list-aws" routerLinkActive="active" >Product List (AWS)</a>
-  </li>
-</ul>
-
-<router-outlet></router-outlet>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <ul class="nav flex-column mt-5 ml-5">
+        <li class="nav-item">
+          <a routerLink="./photo-list-aws" routerLinkActive="active" >Product List (AWS)</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
