@@ -10,7 +10,6 @@ import { DynamoDbServiceService } from '../../services/dynamo-db-service.service
   styleUrls: ['./dynamo-db-list.component.css']
 })
 export class DynamoDbListComponent implements OnInit {
-
   errorMessage: string = ""
 
   awsPhotoGaleryItems: AwsPhotoGalery[] = []
@@ -22,6 +21,13 @@ export class DynamoDbListComponent implements OnInit {
   constructor(private service : DynamoDbServiceService) { }
 
   ngOnInit(): void {
+    this.getAll();
+  }
+
+  public deleteItem(id: string) {
+    this.service.delete({ id: id }).subscribe({
+      error: err => this.errorMessage = err
+    });
   }
 
   private getAll() {

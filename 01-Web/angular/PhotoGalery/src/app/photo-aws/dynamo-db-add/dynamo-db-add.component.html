@@ -1,8 +1,12 @@
-<form class="row g-3 my-5">
+<div *ngIf="isErrorExists" class="alert alert-danger" role="alert">
+  {{errorMessage}}
+</div>
+
+<div class="row g-3 my-5">
   <div class="col-auto">
-    <input type="password" class="form-control" id="inputPassword2" placeholder="New item name">
+    <input type="text" class="form-control" placeholder="New item name">
   </div>
   <div class="col-auto">
-    <button type="submit" class="btn btn-primary mb-3">Add</button>
+    <button (click)='addNewItem()' [(ngModel)]="newNameItem" type="submit" class="btn btn-primary mb-3">Add</button>
   </div>
-</form>
+</div>

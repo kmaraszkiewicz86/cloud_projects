@@ -38,6 +38,8 @@ namespace PhotoGalery.Api.Middlewares
 
         private async Task WriteContext(HttpContext httpContext, string errorMessage)
         {
+            httpContext.Response.StatusCode = 400;
+
             await httpContext.Response.WriteAsync(
                 JsonSerializer.Serialize(new ErrorResponse {ErrorMessage = errorMessage}));
         }

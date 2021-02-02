@@ -16,7 +16,9 @@
         <th scope="row">{{awsPhotoGaleryItem.id}}</th>
         <td>{{awsPhotoGaleryItem.name}}</td>
         <td>
-          <a href="#" class="stretched-link">Details</a>
+          <a [routerLink]="['/app-dynamo-db-details', awsPhotoGaleryItem.id]"  >Details</a>
+          |
+          <a (click)='deleteItem(awsPhotoGaleryItem.id)' >Delete</a>
         </td>
       </tr>
     </tbody>
