@@ -1,0 +1,15 @@
+﻿@inherits AddPhotoGaleryComponent
+
+<div class="row g-3 my-5">
+    <EditForm Model="@InsertPhotoGralleryRequest" OnValidSubmit="@OnInvalidSubmitAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="col-auto">
+            <InputText @bind-Value="@InsertPhotoGralleryRequest.Name" class="form-control" placeholder="New item name" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Add</button>
+        </div>
+    </EditForm>
+</div>

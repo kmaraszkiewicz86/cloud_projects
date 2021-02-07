@@ -1,0 +1,45 @@
+﻿@page "/"
+
+@using PhotoGallery.Shared.ApiModels.Api.PhotoAwsGallery
+
+@inherits PhotoGaleryComponent
+
+<AddPhotoGaleryPage OnAddedCallback="@OnAddedItemHandler" />
+
+@if (PhotoGalleryResponses == null)
+{
+    <div class="row" >
+        <h1>Loading. Please wait...</h1>
+    </div>
+}
+else
+{
+    <AlertDialogSharedPage ErrorMessage="@ErrorMessage" ModalStateErrors="@ModelStateErrors" />
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (PhotoGalleryResponse photoGalleryResponses in PhotoGalleryResponses)
+                {
+                    <tr>
+                        <th scope="row">@photoGalleryResponses.Id</th>
+                        <td>@photoGalleryResponses.Name</td>
+                        <td>
+                            <a class="btn btn-primary" @onclick="@(() => NavigateToPhotoDetailsPage(photoGalleryResponses.Id))">Details</a>
+                            |
+                            <a class="btn btn-primary" @onclick="async () => await DeletePhotoAsync(photoGalleryResponses.Id)" >Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

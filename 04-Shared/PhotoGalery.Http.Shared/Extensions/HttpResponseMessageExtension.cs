@@ -35,8 +35,10 @@ namespace PhotoGalery.Http.Shared.Extensions
                     
                     throw new InvalidResponseException($"{errorResponse.ErrorMessage}");
                 }
-                
-                throw new InvalidResponseException($"Unknown error");
+
+                string invalidResponse = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                throw new InvalidResponseException($"[{httpResponseMessage.StatusCode}]: {invalidResponse}");
             }
         }
 

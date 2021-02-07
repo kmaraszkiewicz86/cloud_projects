@@ -1,0 +1,36 @@
+﻿@if (IsErrorExists)
+{
+    <div class="alert alert-danger" role="alert">
+        @if (ModalStateErrors.Count > 0)
+        {
+            <ul>
+                @foreach(KeyValuePair<string, string[]> modalError in ModalStateErrors)
+                {
+                    <li>
+                        @modalError.Key : @(string.Join(", ", @modalError.Value))
+                    </li>
+                }
+            </ul>
+        }
+        else 
+        {
+            <p>@ErrorMessage</p>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string ErrorMessage { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string[]> ModalStateErrors { get; set; }
+
+    public bool IsErrorExists
+    {
+        get
+        {
+            return !string.IsNullOrWhiteSpace(ErrorMessage) || (ModalStateErrors != null && ModalStateErrors.Count > 0);
+        }
+    }
+}
