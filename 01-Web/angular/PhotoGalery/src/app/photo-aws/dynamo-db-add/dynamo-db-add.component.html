@@ -4,9 +4,9 @@
 
 <div class="row g-3 my-5">
   <div class="col-auto">
-    <input type="text" class="form-control" placeholder="New item name">
+    <input [(ngModel)]="newNameItem" type="text" class="form-control" placeholder="New item name">
   </div>
   <div class="col-auto">
-    <button (click)='addNewItem()' [(ngModel)]="newNameItem" type="submit" class="btn btn-primary mb-3">Add</button>
+    <button (click)='addNewItem()' type="submit" class="btn btn-primary mb-3">Add</button>
   </div>
 </div>

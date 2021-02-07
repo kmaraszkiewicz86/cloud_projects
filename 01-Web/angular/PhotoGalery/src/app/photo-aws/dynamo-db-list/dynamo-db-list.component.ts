@@ -30,6 +30,10 @@ export class DynamoDbListComponent implements OnInit {
     });
   }
 
+  public onAddItemAction(message: string) {
+    this.getAll();
+  }
+
   private getAll() {
     this.service.getAll().subscribe({
       next: data => this.awsPhotoGaleryItems = data,

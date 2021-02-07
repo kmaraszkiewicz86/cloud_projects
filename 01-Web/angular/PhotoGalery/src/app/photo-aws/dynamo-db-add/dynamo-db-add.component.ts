@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { DynamoDbServiceService } from '../../services/dynamo-db-service.service'
 
@@ -8,6 +8,8 @@ import { DynamoDbServiceService } from '../../services/dynamo-db-service.service
   styleUrls: ['./dynamo-db-add.component.css']
 })
 export class DynamoDbAddComponent implements OnInit {
+
+  @Output() onAddCallcack: EventEmitter<string> = new EventEmitter<string>();
 
   errorMessage: string = ""
 
@@ -30,6 +32,8 @@ export class DynamoDbAddComponent implements OnInit {
       });
 
       this.newNameItem = '';
+
+      this.onAddCallcack.emit("on Add callback");
     }
   }
 
