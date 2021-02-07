@@ -5,7 +5,7 @@ namespace PhotoGalery.Http.Shared.Core.Implementations
 {
     public abstract class BaseHttpService
     {
-        private readonly string BaseAdress = "http://localhost:5555";
+        private readonly string BaseAdress = "http://localhost:5000";
 
         protected readonly HttpClient HttpClient;
 

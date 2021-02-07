@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoGalery", "PhotoGalery\PhotoGalery.csproj", "{25FB3178-C78F-4347-B5A8-5B9050D878F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoGalery", "01-Web\blazor\PhotoGalery.csproj", "{25FB3178-C78F-4347-B5A8-5B9050D878F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoGalery.Http.Shared", "..\..\..\04-Shared\PhotoGalery.Http.Shared\PhotoGalery.Http.Shared.csproj", "{789C8AD4-C044-4C26-B556-D332A579C455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoGalery.Http.Shared", "04-Shared\PhotoGalery.Http.Shared\PhotoGalery.Http.Shared.csproj", "{789C8AD4-C044-4C26-B556-D332A579C455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
