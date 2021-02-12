@@ -1,15 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using PhotoGalery.Http.Shared.Core.Interfaces;
+using PhotoGalery.Mobile.Services.Interfaces;
 using PhotoGallery.Shared.ApiModels.Api.PhotoAwsGallery;
+using PhotoGallery.Shared.Models;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace PhotoGalery.Mobile.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        public ImageSource PhotoImageSource
+        {
+            get => _photoImageSource;
+            set
+            {
+                _photoImageSource = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<PhotoGalleryResponse> PhotoGalleryResponses
         {
             get => _photoGalleryResponses;
@@ -25,6 +41,8 @@ namespace PhotoGalery.Mobile.ViewModels
         public Command OnAddedNewItemCommand { get; set; }
 
         public Command OnDeleteItemCommand { get; set; }
+
+        public Command TakePhotoCommand { get; set; }
 
         public bool IsLoading
         {
@@ -49,6 +67,8 @@ namespace PhotoGalery.Mobile.ViewModels
             }
         }
 
+        private ImageSource _photoImageSource;
+
         private ObservableCollection<PhotoGalleryResponse> _photoGalleryResponses;
 
         private bool _isLoading;
@@ -57,27 +77,55 @@ namespace PhotoGalery.Mobile.ViewModels
 
         private readonly IPhotoGaleryHttpService _photoGaleryHttpService;
 
-        public MainViewModel(IPhotoGaleryHttpService photoGaleryHttpService)
-        {
-            _photoGaleryHttpService = photoGaleryHttpService;
+        private readonly ICameraService _cameraService;
 
+        public MainViewModel(IPhotoGaleryHttpService photoGaleryHttpService,
+            ICameraService cameraService)
+        {
             PhotoGalleryResponses = new ObservableCollection<PhotoGalleryResponse>();
 
-            OnAppearingCommand = new Command(OnAppearingCommandAction);
+            OnAppearingCommand = new Command(async () => await OnAppearingCommandActionAsync());
             OnAddedNewItemCommand = new Command(OnAddedNewItemAction,
                 canExecute: () => !string.IsNullOrEmpty(NewItemName));
             OnDeleteItemCommand = new Command<string>(OnDeleteItemCommandAction);
+            TakePhotoCommand = new Command(TakePhotoCommandAction);
+
+            _photoGaleryHttpService = photoGaleryHttpService;
+            _cameraService = cameraService;
         }
 
-        private void OnAppearingCommandAction()
+        private async Task OnAppearingCommandActionAsync()
         {
+            await RequestRequiredPermissionsAsync();
+
             ErrorMessage = string.Empty;
             IsLoading = true;
 
-            Task.Run(async () =>
+            await FetchItemsFromServerAsync();
+        }
+
+        private async Task RequestRequiredPermissionsAsync()
+        {
+            PermissionStatus status = await Permissions.RequestAsync<Permissions.Camera>();
+
+            CheckIfUserGrandedPermission(status);
+
+            status = await Permissions.RequestAsync<Permissions.StorageWrite>();
+
+            CheckIfUserGrandedPermission(status);
+        }
+
+        private void CheckIfUserGrandedPermission(PermissionStatus status)
+        {
+            if (!status.HasFlag(PermissionStatus.Granted))
             {
-                await FetchItemsFromServerAsync();
-            });
+                Application.Current.MainPage.Dispatcher.BeginInvokeOnMainThread(() =>
+                {
+                    ErrorMessage = $"The permission is not granded!";
+                });
+
+                return;
+            }
         }
 
         private void OnAddedNewItemAction()
@@ -150,6 +198,34 @@ namespace PhotoGalery.Mobile.ViewModels
             {
                 PhotoGalleryResponses = new ObservableCollection<PhotoGalleryResponse>(
                     photoGalleryResponsesFromServer.ToList());
+            });
+        }
+
+        private void TakePhotoCommandAction()
+        {
+            IsLoading = true;
+
+            Task.Run(async () =>
+            {
+                await TryCatchWorkAsync(async () =>
+                {
+                    PhotoFromCameraModel photoFromCameraModel =
+                        await _cameraService.TakePhotoAndGetBytes();
+
+                    if (!photoFromCameraModel.IsValid)
+                        throw new Exception(photoFromCameraModel.ErrorMessage);
+
+                    ImageSource photoImageSource
+                        = ImageSource.FromStream(() => photoFromCameraModel.PhotoInBytes);
+
+                    Application.Current.MainPage.Dispatcher.BeginInvokeOnMainThread(() =>
+                    {
+                        PhotoImageSource = photoImageSource;
+
+                        IsLoading = false;
+                    });
+                });
+
             });
         }
     }

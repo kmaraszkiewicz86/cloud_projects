@@ -23,7 +23,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *">
+    <Grid RowDefinitions="Auto, Auto, 50, Auto, *">
         <ActivityIndicator 
             AutomationId="ActivityIndicator"
             Grid.Row="0"
@@ -40,7 +40,9 @@
                    TextColor="DarkRed" />
         </StackLayout>
 
-        <StackLayout Grid.Row="2">
+        <Image Grid.Row="2" Source="{Binding PhotoImageSource}" />
+
+        <StackLayout Grid.Row="3">
             <Entry Text="{Binding NewItemName}" 
                    AutomationId="NewItemName"
                    Placeholder="Enter new item name" 
@@ -51,7 +53,7 @@
         </StackLayout>
 
         <CollectionView 
-            Grid.Row="3"
+            Grid.Row="4"
             AutomationId="CollectionViewReference"
             Style="{DynamicResource PhotoCollectionViewStyle}"
             ItemsSource="{Binding PhotoGalleryResponses}">
@@ -69,9 +71,18 @@
                                            CommandParameter="{Binding Id}" />
                             </SwipeView.RightItems>
 
-                            <Label VerticalTextAlignment="Center" 
+                            <StackLayout Orientation="Horizontal">
+                                <Label VerticalTextAlignment="Center" 
                                    FontSize="Medium" 
                                    Text="{Binding Name}" />
+
+                                <Button Margin="5"
+                                        Text="Take photo"
+                                        Command="{Binding Path=BindingContext.TakePhotoCommand, Source={x:Reference MainPageReference}}"
+                                        />
+                            </StackLayout>
+
+                            
                         </SwipeView>
 
                         <BoxView Grid.Row="1" 
