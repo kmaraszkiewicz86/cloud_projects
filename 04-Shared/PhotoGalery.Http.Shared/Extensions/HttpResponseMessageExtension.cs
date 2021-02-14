@@ -36,6 +36,13 @@ namespace PhotoGalery.Http.Shared.Extensions
                     throw new InvalidResponseException($"{errorResponse.ErrorMessage}");
                 }
 
+                if (httpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                {
+                    string url = httpResponseMessage.RequestMessage.RequestUri.ToString();
+
+                    throw new InvalidResponseException($"[{httpResponseMessage.StatusCode}]: {url}");
+                }
+
                 string invalidResponse = await httpResponseMessage.Content.ReadAsStringAsync();
 
                 throw new InvalidResponseException($"[{httpResponseMessage.StatusCode}]: {invalidResponse}");

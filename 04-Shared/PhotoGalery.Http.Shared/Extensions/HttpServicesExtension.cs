@@ -9,6 +9,7 @@ namespace PhotoGalery.Http.Shared.Extensions
         public static IServiceCollection GetRequiredHttpServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddHttpClient<IPhotoGaleryHttpService, PhotoGaleryHttpService>();
+            serviceCollection.AddHttpClient<IUploadPhotoHttpService, UploadPhotoHttpService>();
 
             return serviceCollection;
         }

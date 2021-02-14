@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using PhotoGalery.Http.Shared.Core.Interfaces;
 using PhotoGalery.Mobile.Services.Interfaces;
 using PhotoGallery.Shared.ApiModels.Api.PhotoAwsGallery;
@@ -36,13 +37,13 @@ namespace PhotoGalery.Mobile.ViewModels
             }
         }
 
-        public Command OnAppearingCommand { get; set; }
+        public ICommand OnAppearingCommand { get; set; }
 
-        public Command OnAddedNewItemCommand { get; set; }
+        public ICommand OnAddedNewItemCommand { get; set; }
 
-        public Command OnDeleteItemCommand { get; set; }
+        public ICommand OnDeleteItemCommand { get; set; }
 
-        public Command TakePhotoCommand { get; set; }
+        public ICommand TakePhotoCommand { get; set; }
 
         public bool IsLoading
         {
@@ -61,7 +62,7 @@ namespace PhotoGalery.Mobile.ViewModels
             {
                 _newItemName = value;
 
-                OnAddedNewItemCommand?.ChangeCanExecute();
+                ((Command)OnAddedNewItemCommand)?.ChangeCanExecute();
 
                 OnPropertyChanged();
             }
@@ -79,8 +80,11 @@ namespace PhotoGalery.Mobile.ViewModels
 
         private readonly ICameraService _cameraService;
 
+        private readonly IUploadPhotoHttpService _uploadPhotoHttpService;
+
         public MainViewModel(IPhotoGaleryHttpService photoGaleryHttpService,
-            ICameraService cameraService)
+            ICameraService cameraService,
+            IUploadPhotoHttpService uploadPhotoHttpService)
         {
             PhotoGalleryResponses = new ObservableCollection<PhotoGalleryResponse>();
 
@@ -88,10 +92,11 @@ namespace PhotoGalery.Mobile.ViewModels
             OnAddedNewItemCommand = new Command(OnAddedNewItemAction,
                 canExecute: () => !string.IsNullOrEmpty(NewItemName));
             OnDeleteItemCommand = new Command<string>(OnDeleteItemCommandAction);
-            TakePhotoCommand = new Command(TakePhotoCommandAction);
+            TakePhotoCommand = new Command<string>(TakePhotoCommandAction);
 
             _photoGaleryHttpService = photoGaleryHttpService;
             _cameraService = cameraService;
+            _uploadPhotoHttpService = uploadPhotoHttpService;
         }
 
         private async Task OnAppearingCommandActionAsync()
@@ -201,7 +206,7 @@ namespace PhotoGalery.Mobile.ViewModels
             });
         }
 
-        private void TakePhotoCommandAction()
+        private void TakePhotoCommandAction(string id)
         {
             IsLoading = true;
 
@@ -215,8 +220,11 @@ namespace PhotoGalery.Mobile.ViewModels
                     if (!photoFromCameraModel.IsValid)
                         throw new Exception(photoFromCameraModel.ErrorMessage);
 
+                    UploadedPhotoResponse uploadedPhotoResponse
+                        = await _uploadPhotoHttpService.UploadAsync(id, photoFromCameraModel.PhotoInBytes);
+
                     ImageSource photoImageSource
-                        = ImageSource.FromStream(() => photoFromCameraModel.PhotoInBytes);
+                        = ImageSource.FromStream(() => new MemoryStream(uploadedPhotoResponse.PhotoBytes));
 
                     Application.Current.MainPage.Dispatcher.BeginInvokeOnMainThread(() =>
                     {

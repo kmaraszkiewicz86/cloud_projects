@@ -79,6 +79,7 @@
                                 <Button Margin="5"
                                         Text="Take photo"
                                         Command="{Binding Path=BindingContext.TakePhotoCommand, Source={x:Reference MainPageReference}}"
+                                        CommandParameter="{Binding Id}"
                                         />
                             </StackLayout>
 
