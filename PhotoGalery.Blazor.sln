@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoGalery", "01-Web\blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoGalery.Http.Shared", "04-Shared\PhotoGalery.Http.Shared\PhotoGalery.Http.Shared.csproj", "{789C8AD4-C044-4C26-B556-D332A579C455}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGalery.Blazor.E2ETests", "05-Tests\PhotoGalery.Blazor.E2ETests\PhotoGalery.Blazor.E2ETests.csproj", "{274C84C8-834B-480C-8C37-880F2D0878C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.Shared", "04-Shared\PhotoGallery.Shared\PhotoGallery.Shared.csproj", "{ED7D0397-A1A5-4C61-A6BD-D114101BC4E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{789C8AD4-C044-4C26-B556-D332A579C455}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{789C8AD4-C044-4C26-B556-D332A579C455}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{789C8AD4-C044-4C26-B556-D332A579C455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{274C84C8-834B-480C-8C37-880F2D0878C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{274C84C8-834B-480C-8C37-880F2D0878C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{274C84C8-834B-480C-8C37-880F2D0878C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{274C84C8-834B-480C-8C37-880F2D0878C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED7D0397-A1A5-4C61-A6BD-D114101BC4E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED7D0397-A1A5-4C61-A6BD-D114101BC4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED7D0397-A1A5-4C61-A6BD-D114101BC4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED7D0397-A1A5-4C61-A6BD-D114101BC4E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

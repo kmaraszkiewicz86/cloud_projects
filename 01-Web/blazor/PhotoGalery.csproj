@@ -12,7 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\04-Shared\PhotoGalery.Http.Shared\PhotoGalery.Http.Shared.csproj" />
+    <ProjectReference Include="..\..\04-Shared\PhotoGalery.Http.Shared\PhotoGalery.Http.Shared.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\..\04-Shared\PhotoGallery.Shared\PhotoGallery.Shared.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
-
 </Project>
